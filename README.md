@@ -1,6 +1,5 @@
 # Minecraft Utils
-![License](https://img.shields.io/github/license/Defective4/Minecraft-server-utils)
-![Size](https://img.shields.io/github/repo-size/Defective4/Minecraft-server-utils)
+![License](https://img.shields.io/github/license/Defective4/Minecraft-utils)
 [Online documentation](https://defective4.github.io/Minecraft-utils/)
 
 A Java library containing some utilities to communicate with Minecraft server (RCON, status, query)
