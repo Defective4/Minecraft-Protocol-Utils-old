@@ -9,7 +9,7 @@ import net.defect.mc.packets.RconPacket;
 
 /**
  * RconReader is used for reading {@link RconPacket}s from InputStream
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class RconReader {
@@ -18,7 +18,7 @@ public class RconReader {
 	 * Read {@link RconPacket} from stream
 	 * @param is Stream to read from
 	 * @return Rcon packet
-	 * @throws IOException
+	 * @throws IOException when there was error reading packet
 	 */
 	public static RconPacket readPacket(InputStream is) throws IOException
 	{

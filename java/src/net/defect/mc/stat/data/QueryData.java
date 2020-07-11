@@ -4,7 +4,7 @@ import net.defect.mc.stat.MCStatus;
 
 /**
  * Class containing data received with {@link MCStatus}'s getQuery() method
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class QueryData {

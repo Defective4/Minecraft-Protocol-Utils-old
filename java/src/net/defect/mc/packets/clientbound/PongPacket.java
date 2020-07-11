@@ -4,7 +4,7 @@ import net.defect.mc.packets.Packet;
 
 /**
  * Packet containing response to client's Ping packet
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class PongPacket extends Packet {

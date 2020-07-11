@@ -11,7 +11,7 @@ import net.defect.mc.packets.RconPacket;
 
 /**
  * Class for creating RCON connections
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class Rcon {
@@ -26,7 +26,7 @@ public class Rcon {
 	 * @param port RCON port
 	 * @param password RCON password
 	 * @return rcon session used to communicate with RCON
-	 * @throws IOException
+	 * @throws IOException when there was another connection error
 	 * @throws RconAuthException thrown when password is invalid
 	 */
 	public RconSession connect(String host, int port, String password) throws IOException, RconAuthException

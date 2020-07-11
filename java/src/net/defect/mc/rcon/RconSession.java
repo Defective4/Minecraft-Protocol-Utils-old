@@ -9,7 +9,7 @@ import net.defect.mc.packets.RconPacket;
 
 /**
  * RconSession is used to communicate with RCON host
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class RconSession {
@@ -28,7 +28,7 @@ public class RconSession {
 	 * Send command to host
 	 * @param command command to send
 	 * @return command result
-	 * @throws IOException
+	 * @throws IOException when there was an error sending command
 	 */
 	public String sendCommand(String command) throws IOException
 	{
@@ -39,7 +39,7 @@ public class RconSession {
 	}
 	/**
 	 * Closes this session
-	 * @throws IOException
+	 * @throws IOException when there was error closing session
 	 */
 	public void closeSession() throws IOException
 	{

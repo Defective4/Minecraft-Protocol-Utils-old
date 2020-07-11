@@ -7,7 +7,7 @@ import net.defect.mc.io.FieldOutputStream;
 
 /**
  * Base class for all Minecraft packets
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class Packet {

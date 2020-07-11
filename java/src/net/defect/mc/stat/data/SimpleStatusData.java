@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Object containing data returned by Legacy Server List Ping
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class SimpleStatusData implements StatusData {

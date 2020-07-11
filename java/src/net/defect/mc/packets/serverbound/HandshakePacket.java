@@ -5,7 +5,7 @@ import net.defect.mc.stat.MCStatus.Protocol;
 
 /**
  * Packet used to switch server to target state
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class HandshakePacket extends Packet {

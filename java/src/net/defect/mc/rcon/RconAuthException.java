@@ -8,7 +8,7 @@ public class RconAuthException extends Exception {
 
 	/**
 	 * Exception thrown when authentication failed (password is invalid)
-	 * @param reason
+	 * @param reason Exception's description
 	 */
 	public RconAuthException(String reason)
 	{

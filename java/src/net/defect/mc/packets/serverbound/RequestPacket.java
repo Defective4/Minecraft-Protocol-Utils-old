@@ -4,7 +4,7 @@ import net.defect.mc.packets.Packet;
 
 /**
  * Used to request status data from server
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class RequestPacket extends Packet {

@@ -13,7 +13,7 @@ import net.defect.mc.stat.StatusServer;
 
 /**
  * Class used by {@link StatusServer} containing data sent to client
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class InternalStatusData {
@@ -36,7 +36,7 @@ public class InternalStatusData {
 	}
 	/**
 	 * Sets version display name
-	 * @param name
+	 * @param name version name
 	 */
 	public void setVersionName(String name)
 	{
@@ -79,7 +79,7 @@ public class InternalStatusData {
 	}
 	/**
 	 * Gets protocol
-	 * @return
+	 * @return server's protocol version
 	 */
 	public int getProtocol()
 	{
@@ -87,7 +87,7 @@ public class InternalStatusData {
 	}
 	/**
 	 * Gets description
-	 * @return
+	 * @return server's description
 	 */
 	public String getDescription()
 	{
@@ -95,7 +95,7 @@ public class InternalStatusData {
 	}
 	/**
 	 * Sets protocol
-	 * @param protocol
+	 * @param protocol protocol version to set
 	 */
 	public void setProtocol(int protocol)
 	{

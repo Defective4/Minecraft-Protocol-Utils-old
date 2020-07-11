@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 /**
  * {@link DataOutputStream} with ability to write VarInts
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class FieldOutputStream extends DataOutputStream {
@@ -22,7 +22,7 @@ public class FieldOutputStream extends DataOutputStream {
 	 * Writes VarInt to stream
 	 * Snippet from wiki.vg
 	 * @param value VarInt to write
-	 * @throws IOException
+	 * @throws IOException when writing failed
 	 */
 	public void writeVarInt(int value) throws IOException {
 	    do {
@@ -37,7 +37,7 @@ public class FieldOutputStream extends DataOutputStream {
 	/**
 	 * Writes string to stream
 	 * @param s string to write
-	 * @throws IOException
+	 * @throws IOException when writing failed
 	 */
 	public void writeString(String s) throws IOException
 	{

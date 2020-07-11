@@ -5,7 +5,7 @@ import java.nio.ByteOrder;
 
 /**
  * Special packet used in receiving/sending data from/to RCON
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class RconPacket {

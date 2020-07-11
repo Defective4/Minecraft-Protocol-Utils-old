@@ -6,7 +6,7 @@ import net.defect.mc.packets.Packet;
 
 /**
  * Packet containing JSON response for client's request
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class ResponsePacket extends Packet {

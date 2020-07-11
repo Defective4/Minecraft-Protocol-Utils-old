@@ -17,7 +17,7 @@ import net.defect.mc.stat.data.InternalStatusData;
 /**
  * Status Server provides status data to Minecraft client<br>
  * You can use this to create server that will display data on Minecraft server list
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class StatusServer {
@@ -82,7 +82,7 @@ public class StatusServer {
 	}
 	/**
 	 * Binds server to specified address and starts accepting connections
-	 * @throws IOException
+	 * @throws IOException when there was error creating server
 	 */
 	public void start() throws IOException
 	{

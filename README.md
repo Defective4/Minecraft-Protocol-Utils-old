@@ -1,7 +1,5 @@
 # Minecraft Utils
-![License](https://img.shields.io/github/license/Defective4/Minecraft-server-utils)
-![Size](https://img.shields.io/github/repo-size/Defective4/Minecraft-server-utils)
-[Online documentation](https://defective4.github.io/Minecraft-utils/)
+![License](https://img.shields.io/github/license/Defective4/Minecraft-utils)
 
 A Java library containing some utilities to communicate with Minecraft server (RCON, status, query)
 
@@ -10,6 +8,7 @@ A Java library containing some utilities to communicate with Minecraft server (R
 - Reading Minecraft query (Gametype, Map name)
 - Connecting to RCON
 - Creating server which is not playable but can show some information on Minecraft server list
+- Joining Minecraft server (since v1.1)
 
 # Examples
 
@@ -114,12 +113,13 @@ There are 0/100 players online:
 - [x] Minecraft status
   - [x] Client
   - [x] Server
+    - [ ] Legacy Server List Ping support
 - [x] Minecraft Query
   - [x] Simple stat
   - [ ] Full stat
 - [x] Minecraft RCON
   - [x] Client
-  - [ ] \(Optional) Server (?)
-- [ ] Joining Minecraft server
+  - [ ] \(Optional) Server
+- [x] Joining Minecraft server
   - [ ] Chat support
 - [ ] Partial port to other languages (PHP)

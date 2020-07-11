@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import net.defect.mc.io.FieldInputStream;
 import net.defect.mc.packets.Packet;
 import net.defect.mc.packets.serverbound.HandshakePacket;
+import net.defect.mc.packets.serverbound.LoginPacket;
 import net.defect.mc.packets.serverbound.RequestPacket;
 import net.defect.mc.stat.data.DataConverter;
 import net.defect.mc.stat.data.DecodingException;
@@ -21,19 +22,20 @@ import net.defect.mc.stat.data.ExtraStatusData;
 import net.defect.mc.stat.data.InternalStatusData;
 import net.defect.mc.stat.data.NormalStatusData;
 import net.defect.mc.stat.data.QueryData;
+import net.defect.mc.stat.data.ResponseData;
 import net.defect.mc.stat.data.SimpleStatusData;
 import net.defect.mc.stat.data.StatusData;
 
 /**
  * Core class containing most of the library's functionality
- * @author Wojciech R. "Defective"
- *
+ * @author Wojciech R. "DefektIV"
+ * @version 1.1
  */
 public class MCStatus {
 	
 	/**
 	 * Protocol constants for main versions
-	 * @author Wojciech R. "Defective"
+	 * @author Wojciech R. "DefektIV"
 	 *
 	 */
 	public enum Protocol
@@ -54,9 +56,18 @@ public class MCStatus {
 		SOD(1,""),
 		/**
 		 * Indicates that {@link StatusServer} should automatically detect client's protocol<br>
+		 * Since 1.1 it can also be used with {@link MCStatus}'s login() method for client to try to automatically obtain server's protocol<br>
 		 * Do NOT use this with {@link MCStatus}'s getStatus() method!
 		 */
 		UNIVERSAL(-1,"All"),
+		/**
+		 * Protocol for version 1.16.1
+		 */
+		V1_16_1(736,"1.16.1"),
+		/**
+		 * Protocol for version 1.16
+		 */
+		V1_16(735,"1.16"),
 		/**
 		 * Protocol for version 1.15.2
 		 */
@@ -168,6 +179,10 @@ public class MCStatus {
 	}
 	
 	private static int defaultProtocol = 340;
+	/**
+	 * Highest protocol value supported.
+	 */
+	public static int maxProtocol = 736;
 	
 	protected MCStatus() {}
 	
@@ -177,7 +192,7 @@ public class MCStatus {
 	 * @param host server' hostname
 	 * @param port server's port
 	 * @param data data for server to send
-	 * @return
+	 * @return Created {@link StatusServer}
 	 */
 	public static StatusServer createServer(String host, int port, InternalStatusData data)
 	{
@@ -187,7 +202,7 @@ public class MCStatus {
 	 * Creates {@link StatusServer} bound to specified port
 	 * @param port server's port
 	 * @param data data for server to send
-	 * @return
+	 * @return Created {@link StatusServer}
 	 */
 	public static StatusServer createServer(int port, InternalStatusData data)
 	{
@@ -197,7 +212,7 @@ public class MCStatus {
 	 * Creates {@link StatusServer} bound to specified host and port
 	 * @param host server's hostname
 	 * @param port server's port
-	 * @return
+	 * @return Created {@link StatusServer}
 	 */
 	public static StatusServer createServer(String host, int port)
 	{
@@ -206,7 +221,7 @@ public class MCStatus {
 	/**
 	 * Creates {@link StatusServer} bound to specified port
 	 * @param port server's port
-	 * @return
+	 * @return Created {@link StatusServer}
 	 */
 	public static StatusServer createServer(int port)
 	{
@@ -230,7 +245,7 @@ public class MCStatus {
 	 * @param host target hostname
 	 * @param port server's host
 	 * @return {@link QueryData} object containing data received from server
-	 * @throws IOException
+	 * @throws IOException when there was error querying server
 	 */
 	public static QueryData query(String host, int port) throws IOException
 	{
@@ -277,6 +292,61 @@ public class MCStatus {
 		QueryData dt = new QueryData(data[0], data[1], data[2], Integer.parseInt(data[3]), Integer.parseInt(data[4]));
 		return dt;
 	}
+	/**
+	 * Joins the target server
+	 * @param host server's hostname
+	 * @param port server's port
+	 * @param username client's username
+	 * @param protocol protocol used to connect to server
+	 * @return socket connected to server
+	 * @throws IOException thrown when there was any error during logging in
+	 */
+	public static Socket login(String host, int port, String username, Protocol protocol) throws IOException
+	{
+		return login(host, port, username, protocol.value);
+	}
+	/**
+	 * Joins the target server
+	 * @param host server's hostname
+	 * @param port server's port
+	 * @param username client's username
+	 * @param protocol protocol used to connect. When MCStatus.Protocol.UNIVERSAL is used, client will attempt to detect server's protocol.
+	 * @return socket connected to server
+	 * @throws IOException thrown when there was any error during logging in
+	 */
+	public static Socket login(String host, int port, String username, int protocol) throws IOException
+	{
+		if(protocol==-1)
+			protocol = getStatus(host, port, MCStatus.defaultProtocol).getProtocol();
+		if(protocol==-1)
+			throw new IOException("Server didn't send valid protocol version! Can't start login process.");
+		
+		Socket soc = new Socket();
+		soc.connect(new InetSocketAddress(host, port));
+		
+		OutputStream os = soc.getOutputStream();
+		FieldInputStream is = new FieldInputStream(soc.getInputStream());
+		
+		Packet handshake = new HandshakePacket(protocol, host, port, 2);
+		Packet login = new LoginPacket(username);
+		
+		os.write(handshake.toByteArray());
+		os.write(login.toByteArray());
+		
+		is.readVarInt();
+		int id = is.readVarInt();
+		if(id==0x00)
+		{
+			byte[] data = new byte[is.readVarInt()];
+			is.readFully(data);
+			soc.close();
+			String json = new String(data);
+			ResponseData rcv = new Gson().fromJson(json, ResponseData.class);
+			String response = rcv.getData();
+			throw new IOException("Could not join the server: "+response);
+		}
+		return soc;
+	}
 	
 	/**
 	 * Gets target server's status data
@@ -284,7 +354,7 @@ public class MCStatus {
 	 * @param port server's port
 	 * @param protocol {@link Protocol} used to connect to this server
 	 * @return {@link StatusData} object containing received data
-	 * @throws IOException
+	 * @throws IOException when there was error retrieving server status
 	 */
 	public static StatusData getStatus(String host, int port, Protocol protocol) throws IOException
 	{
@@ -298,7 +368,7 @@ public class MCStatus {
 	 * @param port server's port
 	 * @param protocol value of protocol used to connect to this server
 	 * @return {@link StatusData} object containing received data
-	 * @throws IOException
+	 * @throws IOException when there was error retrieving server status
 	 */
 	public static StatusData getStatus(String host, int port, int protocol) throws IOException
 	{
@@ -342,7 +412,7 @@ public class MCStatus {
 	 * @param host target host
 	 * @param port server's port
 	 * @return {@link StatusData} object containing received data
-	 * @throws IOException
+	 * @throws IOException  when there was error retrieving server status
 	 */
 	public static StatusData getStatus(String host, int port) throws IOException
 	{
@@ -355,7 +425,7 @@ public class MCStatus {
 	 * @param host target host
 	 * @param port server's port
 	 * @return {@link SimpleStatusData} object containing received data
-	 * @throws IOException
+	 * @throws IOException  when there was error retrieving server status
 	 */
 	public static SimpleStatusData getSimpleStatus(String host, int port) throws IOException
 	{

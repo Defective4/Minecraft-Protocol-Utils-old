@@ -2,7 +2,7 @@ package net.defect.mc.stat.data;
 
 /**
  * Extends {@link DescriptionlessStatusData} and add support for server's description (MOTD)
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class ExtraStatusData extends DescriptionlessStatusData {

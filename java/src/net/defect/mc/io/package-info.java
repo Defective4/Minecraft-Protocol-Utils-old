@@ -1,7 +1,7 @@
 
 /**
  * I/O utils
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 package net.defect.mc.io;

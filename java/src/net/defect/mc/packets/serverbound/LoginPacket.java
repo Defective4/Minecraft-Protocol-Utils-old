@@ -3,15 +3,14 @@ package net.defect.mc.packets.serverbound;
 import net.defect.mc.packets.Packet;
 
 /**
- * Yet unused packet<br>
- * Used for logging in to server
- * @author Wojciech R. "Defective"
+ * Packet used for logging in to server
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class LoginPacket extends Packet {
 	/**
 	 * Constructs login packet
-	 * @param username
+	 * @param username Client's username
 	 */
 	public LoginPacket(String username)
 	{

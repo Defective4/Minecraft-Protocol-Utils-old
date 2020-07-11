@@ -7,10 +7,12 @@ import java.util.Base64;
 
 import javax.imageio.ImageIO;
 
+import net.defect.mc.stat.MCStatus;
+
 /**
  * Used only as base class for {@link NormalStatusData} and {@link ExtraStatusData}<br>
  * Contains most of server's status data excluding description (MOTD)
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class DescriptionlessStatusData implements StatusData {
@@ -63,7 +65,9 @@ public class DescriptionlessStatusData implements StatusData {
 	@Override
 	public int getProtocol() {
 
-		return version!=null ? version.protocol : -1;
+		int protocol = version!=null ? version.protocol : -1;
+		protocol = protocol>MCStatus.maxProtocol ? MCStatus.maxProtocol : protocol;
+		return protocol;
 	}
 
 	/**

@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Interface for most of classes containing SLP (Server List Ping) data
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public interface StatusData {
@@ -41,6 +41,7 @@ public interface StatusData {
 	/**
 	 * Gets server's decoded icon
 	 * @return server's icon
+	 * @throws DecodingException when image is not properly encoded
 	 */
 	public BufferedImage getServerIcon() throws DecodingException;
 	/**
@@ -50,7 +51,7 @@ public interface StatusData {
 	public String[] getDescription();
 	/**
 	 * Sets ping
-	 * @param ping
+	 * @param ping ping to ser
 	 */
 	public void setPing(long ping);
 	

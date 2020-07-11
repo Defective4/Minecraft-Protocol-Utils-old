@@ -2,7 +2,7 @@ package net.defect.mc.stat.data;
 
 /**
  * Object containing info about certain player
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 public class PlayerInfo {

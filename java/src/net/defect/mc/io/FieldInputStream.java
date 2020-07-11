@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 /**
  * {@link DataInputStream} with ability to read VarInts
- * @author Wojciech R. "Defective"
+ * @author Wojciech R. "DefektIV"
  *
  */
 
@@ -23,7 +23,7 @@ public class FieldInputStream extends DataInputStream {
 	 * Reads VarInt from stream<br>
 	 * Snippet from wiki.vg
 	 * @return read VarInt
-	 * @throws IOException
+	 * @throws IOException when reading failed
 	 */
 	public int readVarInt() throws IOException {
 	    int numRead = 0;
@@ -45,7 +45,7 @@ public class FieldInputStream extends DataInputStream {
 	/**
 	 * Reads string from stream<br>
 	 * @return read string
-	 * @throws IOException
+	 * @throws IOException when reading failed
 	 */
 	public String readString() throws IOException
 	{
