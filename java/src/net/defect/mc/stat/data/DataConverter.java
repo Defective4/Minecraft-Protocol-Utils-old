@@ -1,6 +1,5 @@
 package net.defect.mc.stat.data;
 
-import java.awt.image.BufferedImage;
 
 
 public class DataConverter {
@@ -16,8 +15,7 @@ public class DataConverter {
 		PlayerInfo[] players = data.getPlayers();
 		int protocol = data.getProtocol();
 		String vname = data.getVersionName();
-		BufferedImage favicon = data.getServerIcon();
-		InternalStatusData sd = new InternalStatusData(description, max, online, players, vname,  protocol, favicon);
+		InternalStatusData sd = new InternalStatusData(description, max, online, players, vname,  protocol);
 		return sd;
 	}
 }

@@ -1,12 +1,5 @@
 package net.defect.mc.stat.data;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.util.Base64;
-
-import javax.imageio.ImageIO;
-
 import net.defect.mc.stat.MCStatus;
 
 /**
@@ -88,33 +81,6 @@ public class DescriptionlessStatusData implements StatusData {
 		return ping;
 	}
 
-	/**
-	 * Gets decoded server icon
-	 */
-	@Override
-	public BufferedImage getServerIcon() throws DecodingException {
-		if(favicon!=null)
-		{
-			if(favicon.contains(","))
-			{
-				try
-				{
-					String fc = favicon.substring(favicon.indexOf(",")+1);
-					byte[] data = Base64.getDecoder().decode(fc.getBytes());
-					return ImageIO.read(new ByteArrayInputStream(data));
-					
-				}
-				catch(Exception e)
-				{
-					throw new DecodingException(e, "Error decoding Base64 string! "+e.toString());
-				}
-			}
-			else
-				throw new DecodingException(new IOException("Bad Base64 string!"), "Bad Base64 string!");
-		}
-		else
-			return null;
-	}
 
 	/**
 	 * Returns null

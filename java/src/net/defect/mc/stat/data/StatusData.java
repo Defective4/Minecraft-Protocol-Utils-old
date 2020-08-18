@@ -1,6 +1,5 @@
 package net.defect.mc.stat.data;
 
-import java.awt.image.BufferedImage;
 
 /**
  * Interface for most of classes containing SLP (Server List Ping) data
@@ -38,12 +37,7 @@ public interface StatusData {
 	 * @return ping
 	 */
 	public long getPing();
-	/**
-	 * Gets server's decoded icon
-	 * @return server's icon
-	 * @throws DecodingException when image is not properly encoded
-	 */
-	public BufferedImage getServerIcon() throws DecodingException;
+	
 	/**
 	 * Gets server's description (MOTD)
 	 * @return server's description

@@ -1,6 +1,5 @@
 package net.defect.mc.stat.data;
 
-import java.awt.image.BufferedImage;
 
 /**
  * Object containing data returned by Legacy Server List Ping
@@ -73,14 +72,7 @@ public class SimpleStatusData implements StatusData {
 		return ping;
 	}
 
-	/**
-	 * Returns null, because Legacy SLP does not send this field
-	 */
-	@Override
-	public BufferedImage getServerIcon() {
-
-		return null;
-	}
+	
 
 
 	@Override

@@ -4,9 +4,14 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 
+import net.defect.mc.event.PlayerJoinEvent;
+import net.defect.mc.event.ServerEventListener;
+import net.defect.mc.event.ServerListPingEvent;
 import net.defect.mc.io.FieldInputStream;
 import net.defect.mc.io.FieldOutputStream;
 import net.defect.mc.packets.Packet;
@@ -26,6 +31,9 @@ public class StatusServer {
 	private InternalStatusData data;
 	private String joinResponse = "Disconnected";
 	private long fp = 0;
+	
+	private List<ServerEventListener> listeners = new ArrayList<ServerEventListener>();
+	
 	protected StatusServer(String host, int port, InternalStatusData data)
 	{
 		this.port = port;
@@ -73,11 +81,36 @@ public class StatusServer {
 		this.data = data;
 	}
 	private boolean running = false;
+	
+	/**
+	 * Adds an event listener to this server
+	 * @param e
+	 */
+	public void addEventListener(ServerEventListener e)
+	{
+		listeners.add(e);
+	}
+	/**
+	 * Removes event listener from this server
+	 * @param e
+	 */
+	public void removeEventListener(ServerEventListener e)
+	{
+		listeners.remove(e);
+	}
+	
 	/**
 	 * Stops the server
 	 */
 	public void stop()
 	{
+		try
+		{
+			Socket soc = new Socket();
+			soc.connect(new InetSocketAddress(host, port));
+			soc.close();
+		}
+		catch(Exception e) {}
 		running = false;
 	}
 	/**
@@ -87,7 +120,7 @@ public class StatusServer {
 	public void start() throws IOException
 	{
 		running = true;
-		ServerSocket srv = new ServerSocket();
+		final ServerSocket srv = new ServerSocket();
 		if(host==null)
 			srv.bind(new InetSocketAddress(25565));
 		else
@@ -109,17 +142,18 @@ public class StatusServer {
 						if(pid==0x00)
 						{
 							int protocol = is.readVarInt();
-							String host = is.readString();
-							int port = is.readShort();
+							is.readString();
+							is.readShort();
 							int state = is.readVarInt();
 							
-							System.out.println("Protocol: "+protocol);
-							System.out.println("Host: "+host);
-							System.out.println("Port: "+port);
-							System.out.println("State: "+state);
 							
 							if(state==1)
 							{
+								ServerListPingEvent pe = new ServerListPingEvent(soc.getInetAddress().getHostAddress(), protocol);
+								for(ServerEventListener sel : listeners)
+								{
+									sel.onServerListPing(pe);
+								}
 								is.readVarInt();
 								pid = is.readVarInt();
 								if(pid==0x00)
@@ -143,7 +177,18 @@ public class StatusServer {
 							}
 							else
 							{
-								os.write(new ResponsePacket("{\"text\":\""+joinResponse+"\"}").toByteArray());
+								is.readVarInt();
+								int ppid = is.readVarInt();
+								if(ppid==0x00)
+								{
+									String username = is.readString();
+									PlayerJoinEvent pje = new PlayerJoinEvent(username, soc.getInetAddress().getHostAddress(), protocol);
+									for(ServerEventListener se : listeners)
+									{
+										se.onPlayerJoin(pje);
+									}
+									os.write(new ResponsePacket("{\"text\":\""+joinResponse+"\"}").toByteArray());
+								}
 							}
 						}
 						
@@ -152,7 +197,7 @@ public class StatusServer {
 					}
 					catch(Exception e)
 					{
-						
+						e.printStackTrace();
 					}
 				}
 				try {

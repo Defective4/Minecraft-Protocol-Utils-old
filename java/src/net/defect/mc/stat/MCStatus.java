@@ -29,7 +29,7 @@ import net.defect.mc.stat.data.StatusData;
 /**
  * Core class containing most of the library's functionality
  * @author Wojciech R. "DefektIV"
- * @version 1.1
+ * @version 1.2
  */
 public class MCStatus {
 	
