@@ -1,6 +1,10 @@
 package net.defect.mc.stat.data;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import net.defect.mc.stat.MCStatus;
 import net.defect.mc.stat.StatusServer;
 
@@ -45,7 +49,73 @@ public class InternalStatusData {
 	 */
 	public InternalStatusData(String description, int max, int online, PlayerInfo[] players, String version, int protocol)
 	{
-		this.description.text = description;
+		if(FormattingCodes.codes==null)
+			FormattingCodes.initCodes();
+		
+		String[] parts = description.split("&");
+		
+		List<IExtra> ext = new ArrayList<>();
+		
+		for(String part : parts)
+		{
+			if(part.length()>0)
+			{
+				Map<String, String> codes = FormattingCodes.codes;
+				
+				String code = part.substring(0,1);
+				String fPart = part.substring(1);
+				String color = null;
+				boolean obfuscated = false;
+				boolean bold = false;
+				boolean strikethrough = false;
+				boolean italic = false;
+				
+				if(codes.containsKey(code))
+				{
+					color = codes.get(code);
+				}
+				else
+				{
+					switch(code)
+					{
+					case "k":
+					{
+						obfuscated = true;
+						break;
+					}
+					case "l":
+					{
+						bold = true;
+						break;
+					}
+					case "m":
+					{
+						strikethrough = true;
+						break;
+					}
+					case "o":
+					{
+						italic = true;
+						break;
+					}
+					}
+				}
+				
+				
+				
+				
+				
+				IExtra ex = new IExtra(fPart, color, obfuscated, bold, strikethrough, italic);
+				
+				ext.add(ex);
+			}
+		}
+		
+		IExtra[] extA = new IExtra[ext.size()];
+		extA = ext.toArray(extA);
+		
+		this.description.extra = extA;
+		
 		this.players.max = max;
 		this.players.online = online;
 		this.players.sample = players;
@@ -80,7 +150,31 @@ public class InternalStatusData {
 }
 class IDescription
 {
+	String text = "";
+	IExtra[] extra;
+	
+}
+class IExtra
+{
+	protected IExtra(String text, String color, boolean obfuscated, boolean bold, boolean strikethrough, boolean italic)
+	{
+		this.text = text;
+		if(color!=null)
+			this.color = color;
+		
+		this.obfuscated = obfuscated;
+		this.bold = bold;
+		this.strikethrough = strikethrough;
+		this.italic = italic;
+	}
+	
+	boolean obfuscated;
+	boolean bold;
+	boolean strikethrough;
+	boolean italic;
+	
 	String text;
+	String color;
 }
 class IPlayers
 {

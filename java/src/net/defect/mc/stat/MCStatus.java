@@ -16,8 +16,6 @@ import net.defect.mc.packets.Packet;
 import net.defect.mc.packets.serverbound.HandshakePacket;
 import net.defect.mc.packets.serverbound.LoginPacket;
 import net.defect.mc.packets.serverbound.RequestPacket;
-import net.defect.mc.stat.data.DataConverter;
-import net.defect.mc.stat.data.DecodingException;
 import net.defect.mc.stat.data.ExtraStatusData;
 import net.defect.mc.stat.data.InternalStatusData;
 import net.defect.mc.stat.data.NormalStatusData;
@@ -29,7 +27,7 @@ import net.defect.mc.stat.data.StatusData;
 /**
  * Core class containing most of the library's functionality
  * @author Wojciech R. "DefektIV"
- * @version 1.2
+ * @version 1.3
  */
 public class MCStatus {
 	
@@ -226,16 +224,6 @@ public class MCStatus {
 	public static StatusServer createServer(int port)
 	{
 		return createServer(null, port, null);
-	}
-	public static StatusServer createRedirectServer(String host, int port, String targetHost, int targetPort, Protocol protocol) throws IOException, DecodingException
-	{
-		return createRedirectServer(host, port, targetHost, targetPort, protocol.value);
-	}
-	public static StatusServer createRedirectServer(String host, int port, String targetHost, int targetPort, int protocol) throws IOException, DecodingException
-	{
-		StatusData data = getStatus(targetHost, targetPort, protocol);
-		InternalStatusData idata = DataConverter.toIStatusData(data);
-		return new StatusServer(host, port, idata);
 	}
 	
 	

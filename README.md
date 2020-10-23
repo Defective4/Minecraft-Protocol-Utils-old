@@ -113,6 +113,8 @@ There are 0/100 players online:
 - [x] Minecraft status
   - [x] Client
   - [x] Server
+    - [x] Color support
+    - [x] FML Mod info support
     - [ ] Legacy Server List Ping support
 - [x] Minecraft Query
   - [x] Simple stat
