@@ -84,7 +84,7 @@ public class StatusServer {
 	
 	/**
 	 * Adds an event listener to this server
-	 * @param e
+	 * @param e event listener
 	 */
 	public void addEventListener(ServerEventListener e)
 	{
@@ -92,7 +92,7 @@ public class StatusServer {
 	}
 	/**
 	 * Removes event listener from this server
-	 * @param e
+	 * @param e event listener to remove
 	 */
 	public void removeEventListener(ServerEventListener e)
 	{

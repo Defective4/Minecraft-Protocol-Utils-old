@@ -121,7 +121,6 @@ There are 0/100 players online:
   - [ ] Full stat
 - [x] Minecraft RCON
   - [x] Client
-  - [ ] \(Optional) Server
 - [x] Joining Minecraft server
-  - [ ] Chat support
+  - [x] Chat support (Unreliable, Send only)
 - [ ] Partial port to other languages (PHP)

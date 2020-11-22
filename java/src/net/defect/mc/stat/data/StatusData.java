@@ -1,5 +1,7 @@
 package net.defect.mc.stat.data;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 /**
  * Interface for most of classes containing SLP (Server List Ping) data
@@ -48,5 +50,12 @@ public interface StatusData {
 	 * @param ping ping to ser
 	 */
 	public void setPing(long ping);
+	
+	/**
+	 * Gets server's icon, null if none
+	 * @return server's icon
+	 * @throws IOException thrown when received icon is invalid
+	 */
+	public BufferedImage getIcon() throws IOException;
 	
 }

@@ -18,7 +18,7 @@ public class PlayerJoinEvent {
 	
 	/**
 	 * Get player's nickname
-	 * @return
+	 * @return player's name
 	 */
 	public String getPlayer()
 	{

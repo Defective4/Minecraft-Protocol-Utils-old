@@ -1,5 +1,7 @@
 package net.defect.mc.stat.data;
 
+import java.awt.image.BufferedImage;
+
 import net.defect.mc.stat.MCStatus;
 import net.defect.mc.stat.StatusServer;
 import net.defect.mc.stat.data.FMLIStatusData.ModInfo;
@@ -33,12 +35,13 @@ public class FMLIStatusData extends InternalStatusData {
 	 * @param description server's MOTD
 	 * @param max max players
 	 * @param online online players count
-	 * @param players online player list
+	 * @param players online player list, or null if none
 	 * @param protocol protocol used by server
+	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, MCStatus.Protocol protocol)
+	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, BufferedImage icon, MCStatus.Protocol protocol)
 	{
-		this(description,max,online,players,protocol,null);
+		this(description,max,online,players, icon, protocol,null);
 	}
 	
 	/**
@@ -46,13 +49,14 @@ public class FMLIStatusData extends InternalStatusData {
 	 * @param description server's MOTD
 	 * @param max max players
 	 * @param online online players count
-	 * @param players online player list
+	 * @param players online player list, or null if none
 	 * @param version version display name
 	 * @param protocol protocol used by server
+	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, String version, int protocol)
+	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, BufferedImage icon, String version, int protocol)
 	{
-		this(description,max,online,players,version,protocol,null);
+		this(description,max,online,players,icon,version,protocol,null);
 	}
 	
 	/**
@@ -60,13 +64,14 @@ public class FMLIStatusData extends InternalStatusData {
 	 * @param description server's MOTD
 	 * @param max max players
 	 * @param online online players count
-	 * @param players online player list
+	 * @param players online player list, or null if none
 	 * @param protocol protocol used by server
 	 * @param mods mod list to be sent to client
+	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, MCStatus.Protocol protocol, ModInfo[] mods)
+	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, BufferedImage icon, MCStatus.Protocol protocol, ModInfo[] mods)
 	{
-		this(description,max,online,players,protocol.name,protocol.value,mods);
+		this(description,max,online,players, icon, protocol.name,protocol.value,mods);
 	}
 
 	/**
@@ -74,14 +79,15 @@ public class FMLIStatusData extends InternalStatusData {
 	 * @param description server's MOTD
 	 * @param max max players
 	 * @param online online players count
-	 * @param players online player list
+	 * @param players online player list, or null if none
 	 * @param version version display name
 	 * @param protocol protocol used by server
 	 * @param mods mod list to be sent to client
+	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, String version, int protocol, ModInfo[] mods)
+	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, BufferedImage icon, String version, int protocol, ModInfo[] mods)
 	{
-		super(description, max, online, players, version, protocol);
+		super(description, max, online, players, icon, version, protocol);
 		if(mods==null)
 			mods = new ModInfo[0];
 		modinfo = new IModInfo("FML", mods);

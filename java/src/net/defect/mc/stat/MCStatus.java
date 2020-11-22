@@ -7,6 +7,7 @@ import java.io.OutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.net.Socket;
 
 import com.google.gson.Gson;
@@ -30,6 +31,8 @@ import net.defect.mc.stat.data.StatusData;
  * @version 1.3
  */
 public class MCStatus {
+	
+	private static Proxy p = null;
 	
 	/**
 	 * Protocol constants for main versions
@@ -280,6 +283,16 @@ public class MCStatus {
 		QueryData dt = new QueryData(data[0], data[1], data[2], Integer.parseInt(data[3]), Integer.parseInt(data[4]));
 		return dt;
 	}
+	
+	/**
+	 * Set proxy to use in connections to servers
+	 * @param p Proxy to use
+	 */
+	public static void setProxy(Proxy p)
+	{
+		MCStatus.p = p;
+	}
+	
 	/**
 	 * Joins the target server
 	 * @param host server's hostname
@@ -289,7 +302,7 @@ public class MCStatus {
 	 * @return socket connected to server
 	 * @throws IOException thrown when there was any error during logging in
 	 */
-	public static Socket login(String host, int port, String username, Protocol protocol) throws IOException
+	public static ClientSession login(String host, int port, String username, Protocol protocol) throws IOException
 	{
 		return login(host, port, username, protocol.value);
 	}
@@ -302,14 +315,14 @@ public class MCStatus {
 	 * @return socket connected to server
 	 * @throws IOException thrown when there was any error during logging in
 	 */
-	public static Socket login(String host, int port, String username, int protocol) throws IOException
+	public static ClientSession login(String host, int port, String username, int protocol) throws IOException
 	{
 		if(protocol==-1)
 			protocol = getStatus(host, port, MCStatus.defaultProtocol).getProtocol();
 		if(protocol==-1)
 			throw new IOException("Server didn't send valid protocol version! Can't start login process.");
 		
-		Socket soc = new Socket();
+		Socket soc = p==null ? new Socket() : new Socket(p);
 		soc.connect(new InetSocketAddress(host, port));
 		
 		OutputStream os = soc.getOutputStream();
@@ -323,6 +336,9 @@ public class MCStatus {
 		
 		is.readVarInt();
 		int id = is.readVarInt();
+		
+		boolean compression = false;
+		
 		if(id==0x00)
 		{
 			byte[] data = new byte[is.readVarInt()];
@@ -333,7 +349,32 @@ public class MCStatus {
 			String response = rcv.getData();
 			throw new IOException("Could not join the server: "+response);
 		}
-		return soc;
+		else if(id==0x03)
+		{
+			compression = is.readVarInt()!=-1;
+		}
+		
+		is.readVarInt();
+		if(compression)
+			is.readVarInt();
+		id = is.readVarInt();
+		if(id==0x02) {
+			byte[] uuidB = new byte[is.readVarInt()];
+			is.readFully(uuidB);
+			byte[] nameB = new byte[is.readVarInt()];
+			is.readFully(nameB);
+			
+			String uuid = new String(uuidB);
+			String name = new String(nameB);
+			
+			return new ClientSession(soc, compression, name, uuid);
+		}
+		else
+		{
+			soc.close();
+			throw new IOException("Login Success not received!");
+		}
+		
 	}
 	
 	/**
@@ -360,7 +401,7 @@ public class MCStatus {
 	 */
 	public static StatusData getStatus(String host, int port, int protocol) throws IOException
 	{
-		Socket soc = new Socket();
+		Socket soc = p==null ? new Socket() : new Socket(p);
 		long start = System.currentTimeMillis();
 		soc.connect(new InetSocketAddress(host, port));
 		long ping = System.currentTimeMillis() - start;
@@ -417,7 +458,7 @@ public class MCStatus {
 	 */
 	public static SimpleStatusData getSimpleStatus(String host, int port) throws IOException
 	{
-		Socket soc = new Socket();
+		Socket soc = p==null ? new Socket() : new Socket(p);
 		long start = System.currentTimeMillis();
 		soc.connect(new InetSocketAddress(host, port));
 		long ping = System.currentTimeMillis() - start;

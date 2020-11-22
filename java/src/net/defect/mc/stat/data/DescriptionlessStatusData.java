@@ -1,5 +1,11 @@
 package net.defect.mc.stat.data;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import net.defect.mc.stat.MCStatus;
 
 /**
@@ -69,7 +75,7 @@ public class DescriptionlessStatusData implements StatusData {
 	@Override
 	public String getVersionName() {
 
-		return version!=null ? version.name : null;
+		return version!=null ? reformat(version.name) : null;
 	}
 
 	/**
@@ -110,6 +116,24 @@ public class DescriptionlessStatusData implements StatusData {
 		}
 		st = st.replaceAll("[^a-zA-Z0-9\\,\\.\\/\\;\\:\\|\\<\\>\\?\\{\\}\\\"\\[\\]\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\-\\=\\_\\+\\`\\s]", "");
 		return st;
+		
+	}
+
+	/**
+	 * Get server's icon
+	 * @throws IOException when received icon is invalid
+	 */
+	@Override
+	public BufferedImage getIcon() throws IOException {
+		String basePrefix = "data:image/png;base64,";
+		if(favicon!=null && favicon.length()>basePrefix.length() && favicon.substring(0,basePrefix.length()).equals(basePrefix))
+		{
+			String base = favicon.substring(favicon.indexOf(",")+1);
+			byte[] imgData = Base64.decode(base);
+			return ImageIO.read(new ByteArrayInputStream(imgData));
+		}
+		else
+			return null;
 		
 	}
 	

@@ -23,7 +23,7 @@ public class ServerListPingEvent {
 	}
 	/**
 	 * Get user's client protocol
-	 * @return
+	 * @return client's protocol
 	 */
 	public int getProtocol()
 	{
