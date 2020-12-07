@@ -1,7 +1,5 @@
 package net.defect.mc.stat.data;
 
-import java.awt.image.BufferedImage;
-
 import net.defect.mc.stat.MCStatus;
 import net.defect.mc.stat.StatusServer;
 import net.defect.mc.stat.data.FMLIStatusData.ModInfo;
@@ -39,7 +37,7 @@ public class FMLIStatusData extends InternalStatusData {
 	 * @param protocol protocol used by server
 	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, BufferedImage icon, MCStatus.Protocol protocol)
+	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, byte[] icon, MCStatus.Protocol protocol)
 	{
 		this(description,max,online,players, icon, protocol,null);
 	}
@@ -54,7 +52,7 @@ public class FMLIStatusData extends InternalStatusData {
 	 * @param protocol protocol used by server
 	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, BufferedImage icon, String version, int protocol)
+	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, byte[] icon, String version, int protocol)
 	{
 		this(description,max,online,players,icon,version,protocol,null);
 	}
@@ -69,7 +67,7 @@ public class FMLIStatusData extends InternalStatusData {
 	 * @param mods mod list to be sent to client
 	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, BufferedImage icon, MCStatus.Protocol protocol, ModInfo[] mods)
+	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, byte[] icon, MCStatus.Protocol protocol, ModInfo[] mods)
 	{
 		this(description,max,online,players, icon, protocol.name,protocol.value,mods);
 	}
@@ -85,7 +83,7 @@ public class FMLIStatusData extends InternalStatusData {
 	 * @param mods mod list to be sent to client
 	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, BufferedImage icon, String version, int protocol, ModInfo[] mods)
+	public FMLIStatusData(String description, int max, int online, PlayerInfo[] players, byte[] icon, String version, int protocol, ModInfo[] mods)
 	{
 		super(description, max, online, players, icon, version, protocol);
 		if(mods==null)

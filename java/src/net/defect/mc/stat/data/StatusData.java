@@ -1,6 +1,5 @@
 package net.defect.mc.stat.data;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
@@ -52,10 +51,10 @@ public interface StatusData {
 	public void setPing(long ping);
 	
 	/**
-	 * Gets server's icon, null if none
-	 * @return server's icon
+	 * Gets server's icon image bytes, null if none
+	 * @return server's icon bytes
 	 * @throws IOException thrown when received icon is invalid
 	 */
-	public BufferedImage getIcon() throws IOException;
+	public byte[] getIcon() throws IOException;
 	
 }

@@ -1,14 +1,11 @@
 package net.defect.mc.stat.data;
 
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 
 import net.defect.mc.stat.MCStatus;
 import net.defect.mc.stat.StatusServer;
@@ -33,7 +30,7 @@ public class InternalStatusData {
 	 * @param protocol protocol used by server
 	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public InternalStatusData(String description, int max, int online, BufferedImage icon, PlayerInfo[] players, MCStatus.Protocol protocol)
+	public InternalStatusData(String description, int max, int online, byte[] icon, PlayerInfo[] players, MCStatus.Protocol protocol)
 	{
 		this(description, max, online, players, icon, protocol.name, protocol.value);
 	}
@@ -47,7 +44,7 @@ public class InternalStatusData {
 	 * @param protocol protocol used by server
 	 * @param icon server icon to use (64x64), or null if none
 	 */
-	public InternalStatusData(String description, int max, int online, PlayerInfo[] players, BufferedImage icon, String version, int protocol)
+	public InternalStatusData(String description, int max, int online, PlayerInfo[] players, byte[] icon, String version, int protocol)
 	{
 		if(FormattingCodes.codes==null)
 			FormattingCodes.initCodes();
@@ -225,15 +222,8 @@ public class InternalStatusData {
 	 * Set server icon sent to client
 	 * @param icon server icon image
 	 */
-	public void setServerIcon(BufferedImage icon) {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		try {
-			ImageIO.write(icon, "png", bos);
-			this.favicon = "data:image/png;base64,"+Base64.encode(bos.toByteArray());
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void setServerIcon(byte[] icon) {
+		this.favicon = "data:image/png;base64,"+Base64.encode(icon);
 	}
 	
 	
