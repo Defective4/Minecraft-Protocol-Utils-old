@@ -4,11 +4,28 @@
 A Java library containing some utilities to communicate with Minecraft server (RCON, status, query)
 
 # Functions
+- **Full chat support! (since v1.5)**
 - Reading Minecraft server status (MOTD, players, protocol, version name, etc.)
 - Reading Minecraft query (Gametype, Map name)
 - Connecting to RCON
 - Creating server which is not playable but can show some information on Minecraft server list
 - Joining Minecraft server (since v1.1)
+
+# List to do
+- [x] Minecraft status
+  - [x] Client
+  - [x] Server
+    - [x] Color support
+    - [x] FML Mod info support
+    - [ ] Legacy Server List Ping support
+- [x] Minecraft Query
+  - [x] Simple stat
+  - [ ] Full stat
+- [x] Minecraft RCON
+  - [x] Client
+- [x] Joining Minecraft server
+  - [x] Chat support
+- [ ] Partial port to other languages (PHP)
 
 # Examples
 
@@ -107,20 +124,3 @@ Example output:
 ```
 There are 0/100 players online: 
 ```
-
-
-# List to do
-- [x] Minecraft status
-  - [x] Client
-  - [x] Server
-    - [x] Color support
-    - [x] FML Mod info support
-    - [ ] Legacy Server List Ping support
-- [x] Minecraft Query
-  - [x] Simple stat
-  - [ ] Full stat
-- [x] Minecraft RCON
-  - [x] Client
-- [x] Joining Minecraft server
-  - [x] Chat support (Unreliable, Send only)
-- [ ] Partial port to other languages (PHP)

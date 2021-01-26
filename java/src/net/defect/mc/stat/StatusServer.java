@@ -104,6 +104,7 @@ public class StatusServer {
 	 */
 	public void stop()
 	{
+		running = false;
 		try
 		{
 			Socket soc = new Socket();
@@ -111,7 +112,6 @@ public class StatusServer {
 			soc.close();
 		}
 		catch(Exception e) {}
-		running = false;
 	}
 	/**
 	 * Binds server to specified address and starts accepting connections
